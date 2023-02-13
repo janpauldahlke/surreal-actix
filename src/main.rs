@@ -1,6 +1,12 @@
 use actix_web::{web::Data, App, HttpServer};
 
+mod api;
+mod error;
+mod model;
+mod prelude;
 mod repository;
+mod utils;
+
 use repository::surrealdb_repo::SurrealDBRepo;
 
 #[actix_web::main]
