@@ -1,21 +1,17 @@
-use actix_web::{get, web, App, HttpServer, Responder};
+use actix_web::{web::Data, App, HttpServer};
 
-#[get("/hello/{name}")]
-async fn greet(name: web::Path<String>) -> impl Responder {
-    format!("Hello {name}!")
-}
+mod repository;
+use repository::surrealdb_repo::SurrealDBRepo;
 
-#[actix_web::main] // or #[tokio::main]
+#[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
-        App::new()
-            .route(
-                "/",
-                web::get().to(|| async { "Hello World From Actix template!" }),
-            )
-            .service(greet)
-    })
-    .bind(("127.0.0.1", 8080))?
-    .run()
-    .await
+    let surreal = SurrealDBRepo::init()
+        .await
+        .expect("Error connecting to SurrealDB!");
+    let db_data = Data::new(surreal);
+
+    HttpServer::new(move || App::new().app_data(db_data.clone()))
+        .bind(("127.0.0.1", 8080))?
+        .run()
+        .await
 }
