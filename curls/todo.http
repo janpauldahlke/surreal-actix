@@ -1,0 +1,23 @@
+@baseUrl = http://127.0.0.1:8080/
+@route = todos
+@url = {{baseUrl}}{{route}}
+@content = application/json
+
+###
+// GET TODOS
+GET {{url}}
+Content-Type: application/json
+
+###
+// POST example
+POST {{url}}
+Content-Type: application/json
+
+{
+    "title": "A meaningful title",
+    "body": "A meaningful note",
+}
+
+
+###
+//PUT example
