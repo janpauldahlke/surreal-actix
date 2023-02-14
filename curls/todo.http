@@ -14,10 +14,27 @@ POST {{url}}
 Content-Type: application/json
 
 {
-    "title": "A meaningful title",
-    "body": "A meaningful note",
+    "title": "A sexy title",
+    "body": "A sexy note"
+}
+
+##### GET single by id
+#### you need a valid id here depending on your runtime
+#### mine is ty3doqq0vel08pwax6yr
+GET {{url}}/ty3doqq0vel08pwax6yr
+Content-Type: application/json
+
+
+### you need an id here!!!
+//PUT by id example
+PUT {{url}}/ty3doqq0vel08pwax6yr
+Content-Type: application/json
+
+{
+    "title": "A sexy title, updated",
+    "body": "A sexy note, updated"
 }
 
 
-###
-//PUT example
+
+##### DELETE by id
