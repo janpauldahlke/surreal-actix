@@ -74,7 +74,7 @@ impl TodoBMC {
 
         let res = db.ds.execute(ast, &db.ses, None, true).await?;
 
-        let first_res = res.into_iter().next().expect("Did not get a response");
+        let first_res = res.into_iter().next().expect("Did not get a TODO response");
 
         let array: Array = W(first_res.result?).try_into()?;
 
