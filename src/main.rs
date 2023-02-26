@@ -7,7 +7,7 @@ mod prelude;
 mod repository;
 mod utils;
 
-//use api::todo_api::{create_todo, delete_todo, get_todo, get_todos, update_todo};
+use api::todo_api::{create_todo, delete_todo, get_todo, get_todos, update_todo};
 use api::user_api::{create_user, delete_user, get_user, get_users, update_user};
 use repository::surrealdb_repo::SurrealDBRepo;
 
@@ -22,11 +22,11 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(db_data.clone())
-            //.service(create_todo)
-            //.service(get_todos)
-            //.service(get_todo)
-            //.service(update_todo)
-            //.service(delete_todo)
+            .service(create_todo)
+            .service(get_todos)
+            .service(get_todo)
+            .service(update_todo)
+            .service(delete_todo)
             .service(create_user)
             .service(get_users)
             .service(get_user)

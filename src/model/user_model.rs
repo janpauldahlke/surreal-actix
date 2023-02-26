@@ -31,7 +31,13 @@ impl From<User> for Value {
               "role".into() => user.role.into(), // how to cover this as Role Type
             ]
             .into(),
-            None => map![],
+            None => map![
+                "id".into() => user.id.into(),
+                "username".into() => user.username.into(),
+                "password".into() => user.password.into(),
+                "role".into() => user.role.into(), // how to cover this as Role Type
+            ]
+            .into(),
         }
     }
 }
