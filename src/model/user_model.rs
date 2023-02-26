@@ -1,7 +1,6 @@
 use actix_web::web::Data;
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
-use surrealdb::sql::statements::CreateStatement;
 use surrealdb::sql::{thing, Array, Object, Value};
 
 use crate::prelude::*;
