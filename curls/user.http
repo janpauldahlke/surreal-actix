@@ -20,3 +20,21 @@ Content-Type:  {{content}}
   "password" : "safepass",
   "role" : "admin"
 }
+
+
+### get list
+GET {{url}}
+Content-Type: {{content}}
+
+### by id e.g. gyheq6tzk3c3yji7venb
+GET {{url}}/gyheq6tzk3c3yji7venb
+Content-Type: {{content}}
+
+PUT {{url}}/gyheq6tzk3c3yji7venb
+Content-Type: {{content}}
+
+{
+   "username" : "test user",
+   "password" : "safepass",
+   "role" : "user"
+}
