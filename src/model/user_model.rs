@@ -103,4 +103,52 @@ impl UserBMC {
 
         W(first_val.first()).try_into()
     }
+
+    pub async fn get(db: Data<SurrealDBRepo>, uid: &str) -> Result<Object, Error> {
+        let sql = "SELECT * FROM $th";
+        let uid = format!("user:{}", uid);
+        let vars: BTreeMap<String, Value> = map!["th".into() => thing(&uid)?.into()];
+        let ress = db.ds.execute(sql, &db.ses, Some(vars), true).await?;
+        let first_res = ress
+            .into_iter()
+            .next()
+            .expect("Did not get a User response");
+
+        W(first_res.result?.first()).try_into()
+    }
+
+    pub async fn update<T: Patchable>(
+        db: Data<SurrealDBRepo>,
+        uid: &str,
+        data: T,
+    ) -> Result<Object, Error> {
+        let sql = "UPDATE $th MERGE $data RETURN *";
+        let uid = format!("user:{}", uid);
+        let vars = map![
+            "th".into() => thing(&uid)?.into(),
+            "data".into() => data.into(),
+        ];
+
+        let ress = db.ds.execute(sql, &db.ses, Some(vars), true).await?;
+        let first_res = ress
+            .into_iter()
+            .next()
+            .expect("Did not get a User response");
+        let result = first_res.result?;
+        W(result.first()).try_into()
+    }
+
+    pub async fn delete(db: Data<SurrealDBRepo>, uid: &str) -> Result<String, Error> {
+        let sql = "DELETE $th RETURN *";
+        let uid = format!("user:{}", uid);
+        let vars = map!["th".into() => thing(&uid)?.into()];
+        let ress = db.ds.execute(sql, &db.ses, Some(vars), false).await?;
+        let first_res = ress
+            .into_iter()
+            .next()
+            .expect("Did not get a User response");
+
+        first_res.result?;
+        Ok(uid)
+    }
 }
