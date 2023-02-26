@@ -1,0 +1,22 @@
+@baseUrl = http://127.0.0.1:8080/
+@route = users
+@url = {{baseUrl}}{{route}}
+@content = application/json
+
+
+#pub struct User {
+#    pub id: Option<String>,
+#    pub username: String,
+#    pub password: String,
+#    pub role: String,
+#}
+
+###
+POST {{url}}
+Content-Type:  {{content}}
+
+{
+  "username" : "test user",
+  "password" : "safepass",
+  "role" : "admin"
+}
