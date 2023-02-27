@@ -11,6 +11,8 @@ use api::todo_api::{create_todo, delete_todo, get_todo, get_todos, update_todo};
 use api::user_api::{create_user, delete_user, get_user, get_users, update_user};
 use repository::surrealdb_repo::SurrealDBRepo;
 
+// region -- main
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let surreal = SurrealDBRepo::init()
@@ -37,3 +39,5 @@ async fn main() -> std::io::Result<()> {
     .run()
     .await
 }
+
+// -- end region

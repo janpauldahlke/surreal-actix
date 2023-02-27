@@ -157,3 +157,48 @@ impl UserBMC {
         Ok(uid)
     }
 }
+
+// -- end region
+
+// create tests for the user methods
+
+#[cfg(test)]
+mod tests {
+
+    //how to gain the ability to mock the db?
+    //use crate::model::user_model::*;
+
+    #[test]
+    fn is_able_to_test() {
+        println!("test");
+        assert_eq!(1, 1);
+    }
+
+    #[test]
+    fn test_user_bmc() {
+        // test create
+
+        println!("abandoned test, create SURREAL_MOCK");
+        //init mock db
+        //let surreal_mock = SurrealDBRepo::init();
+
+        // #[test]
+        // fn create_user_test() {
+        //     let user_stub = User {
+        //         id: None,
+        //         username: "test".into(), //std::phantom_data::PhantomData, ? i guess phnatom data is hard to test
+        //         password: "test".into(),
+        //         role: "test".into(),
+        //     };
+        //     let user_from_db = UserBMC::create(|| surreal_mock, "users", user_stub).await?;
+        //     //let user = UserBMC::create(user);
+        //     //assert!(user.is_ok());
+        // }
+
+        //TODO
+        // test get
+        // test update
+        // test delete
+        //tear down mock db
+    }
+}
