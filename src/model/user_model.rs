@@ -17,7 +17,7 @@ pub struct User {
     pub id: Option<String>,
     pub username: String,
     pub password: String,
-    pub role: String,
+    pub role: Role,
 }
 
 // -- Region From<User>
@@ -28,14 +28,20 @@ impl From<User> for Value {
               "id".into() => u.into(),
               "username".into() => user.username.into(),
               "password".into() => user.password.into(),
-              "role".into() => user.role.into(), // how to cover this as Role Type
+              "role".into() => match user.role {
+                Role::Admin => "Admin".into(),
+                Role::User => "User".into(),
+              }, // how to cover this as Role Type
             ]
             .into(),
             None => map![
                 "id".into() => user.id.into(),
                 "username".into() => user.username.into(),
                 "password".into() => user.password.into(),
-                "role".into() => user.role.into(), // how to cover this as Role Type
+                "role".into() => match user.role {
+                    Role::Admin => "Admin".into(),
+                    Role::User => "User".into(),
+                  }, // how to cover this as Role Type
             ]
             .into(),
         }

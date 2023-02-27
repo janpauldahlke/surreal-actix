@@ -4,7 +4,7 @@ use actix_web::{
     HttpResponse,
 };
 
-use crate::model::user_model::{User, UserBMC, UserPatch};
+use crate::model::user_model::{Role, User, UserBMC, UserPatch};
 use crate::repository::surrealdb_repo::SurrealDBRepo;
 
 #[post("/users")]
@@ -13,7 +13,10 @@ pub async fn create_user(db: Data<SurrealDBRepo>, new_user: Json<User>) -> HttpR
         id: None,
         username: new_user.username.to_owned(),
         password: new_user.password.to_owned(),
-        role: new_user.role.to_owned(),
+        role: match new_user.role {
+            Role::Admin => Role::Admin,
+            Role::User => Role::User,
+        },
     };
 
     let user_detail = UserBMC::create(db, "user", data).await;

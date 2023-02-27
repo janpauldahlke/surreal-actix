@@ -15,7 +15,7 @@ use repository::surrealdb_repo::SurrealDBRepo;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let surreal = SurrealDBRepo::init()
+    let surreal = SurrealDBRepo::init_with_name_and_ns_and_db("local.db", "test_ns", "todo_db")
         .await
         .expect("Error connecting to SurrealDB!");
 

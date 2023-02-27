@@ -16,9 +16,9 @@ POST {{url}}
 Content-Type:  {{content}}
 
 {
-  "username" : "test user",
+  "username" : "john doe",
   "password" : "safepass",
-  "role" : "admin"
+  "role" : "user"
 }
 
 
