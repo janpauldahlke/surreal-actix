@@ -8,7 +8,9 @@ mod repository;
 mod utils;
 
 use api::todo_api::{create_todo, delete_todo, get_todo, get_todos, update_todo};
-use api::user_api::{create_user, delete_user, get_user, get_users, update_user};
+use api::user_api::{
+    create_user, delete_user, get_user, get_users, get_users_by_role, update_user,
+};
 use repository::surrealdb_repo::SurrealDBRepo;
 
 // region -- main
@@ -32,6 +34,7 @@ async fn main() -> std::io::Result<()> {
             .service(create_user)
             .service(get_users)
             .service(get_user)
+            .service(get_users_by_role)
             .service(update_user)
             .service(delete_user)
     })

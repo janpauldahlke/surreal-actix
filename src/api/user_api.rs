@@ -1,8 +1,10 @@
 use actix_web::{
     delete, get, post, put,
     web::{Data, Json, Path},
-    HttpResponse,
+    HttpRequest, HttpResponse,
 };
+
+//https://stackoverflow.com/questions/54406029/how-can-i-parse-query-strings-in-actix-web
 
 use crate::model::user_model::{Role, User, UserBMC, UserPatch};
 use crate::repository::surrealdb_repo::SurrealDBRepo;
@@ -85,9 +87,35 @@ pub async fn delete_user(db: Data<SurrealDBRepo>, path: Path<String>) -> HttpRes
     }
 }
 
+//https://actix.rs/docs/extractors/
 #[get("/users")]
-pub async fn get_users(db: Data<SurrealDBRepo>) -> HttpResponse {
+pub async fn get_users(db: Data<SurrealDBRepo>, req: HttpRequest) -> HttpResponse {
+    println!("call GETALL, {:?}", req);
     let users = UserBMC::get_all(db).await;
+    match users {
+        Ok(users) => HttpResponse::Ok().json(users),
+        Err(err) => HttpResponse::InternalServerError().body(err.to_string()),
+    }
+}
+
+// WE DO NOT WANT TO LOAD ALL USERS AND FILTER HERE IN MAP,
+// WE WANT TO FILTER IN THE DB and the SQL only returns the filtered results
+#[get("/users/{role}")]
+pub async fn get_users_by_role(db: Data<SurrealDBRepo>, req: HttpRequest) -> HttpResponse {
+    let role: String = req.match_info().get("friend").unwrap().parse().unwrap();
+    println!("call GETALL with role_arg: {:?}", role);
+    if role.is_empty() {
+        return HttpResponse::BadRequest().body("invalid role");
+    }
+    let role = match role.as_str() {
+        "admin" => Role::Admin,
+        "user" => Role::User,
+        _ => Role::User,
+    };
+
+    println!("call GETALL with role_arg: {:?}", role);
+
+    let users = UserBMC::get_all_by_role(db, role).await;
 
     match users {
         Ok(users) => HttpResponse::Ok().json(users),

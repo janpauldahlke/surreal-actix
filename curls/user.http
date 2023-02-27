@@ -15,15 +15,27 @@
 POST {{url}}
 Content-Type:  {{content}}
 
+// enum type in role can give as safeness here try this vs
+# {
+#   "username" : "john doe",
+#   "password" : "safepass",
+#   "role" : "user"
+# }
+
+
 {
-  "username" : "john doe",
-  "password" : "safepass",
-  "role" : "user"
+  "username" : "JohnUser",
+  "password" : "Johns call",
+  "role" : "User"
 }
 
 
 ### get list
 GET {{url}}
+Content-Type: {{content}}
+
+### get list by role
+GET {{url}}/user
 Content-Type: {{content}}
 
 ### by id e.g. gyheq6tzk3c3yji7venb

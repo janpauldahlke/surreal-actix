@@ -93,6 +93,32 @@ impl UserBMC {
         array.into_iter().map(|v| W(v).try_into()).collect() //
     }
 
+    pub async fn get_all_by_role(
+        db: Data<SurrealDBRepo>,
+        role: Role,
+    ) -> Result<Vec<Object>, Error> {
+        //shadow role
+        let role = match role {
+            Role::Admin => "Admin",
+            Role::User => "User",
+        };
+
+        //https://stackoverflow.com/a/75030322/3061045
+
+        // let fields: [&str; 2] = ["name", "skills"];
+        //     let sql = format!("SELECT {} FROM $th", if fields.len() == 0 {
+        //         "*".to_string()
+        //     } else {
+        //         fields.join(", ")
+        //     });
+
+        let sql = "SELECT * FROM user WHERE role = $role;";
+        let res = db.ds.execute(sql, &db.ses, None, true).await?;
+        let first_res = res.into_iter().next().expect("Did not get a User response");
+        let array: Array = W(first_res.result?).try_into()?;
+        array.into_iter().map(|v| W(v).try_into()).collect() //
+    }
+
     pub async fn create<T: Creatable>(
         db: Data<SurrealDBRepo>,
         tb: &str,
