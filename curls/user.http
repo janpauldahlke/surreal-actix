@@ -35,11 +35,11 @@ GET {{url}}
 Content-Type: {{content}}
 
 ### get list by role
-GET {{url}}/user
+GET {{url}}/role=user
 Content-Type: {{content}}
 
-### by id e.g. gyheq6tzk3c3yji7venb
-GET {{url}}/gyheq6tzk3c3yji7venb
+### by id e.g. lq6up5k73ooejrczl07p
+GET {{url}}/lq6up5k73ooejrczl07p
 Content-Type: {{content}}
 
 ###
