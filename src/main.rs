@@ -9,7 +9,7 @@ mod repository;
 mod utils;
 
 use api::guarded_api::guarded_name;
-use api::hello_api::{hello_name, hello_name_age_location};
+use api::hello_api::{guarded_html, hello_name, hello_name_age_location};
 use api::todo_api::{create_todo, delete_todo, get_todo, get_todos, update_todo};
 use api::user_api::{
     create_user, delete_user, get_user, get_users, get_users_by_role, update_user,
@@ -47,6 +47,7 @@ async fn main() -> std::io::Result<()> {
             .service(delete_user)
             .service(hello_name)
             .service(hello_name_age_location)
+            .service(guarded_html)
             .service(
                 web::scope("/guarded")
                     .route("/{name}", web::get().to(guarded_name))

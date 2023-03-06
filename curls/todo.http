@@ -14,8 +14,8 @@ POST {{url}}
 Content-Type: application/json
 
 {
-    "title": "A sexy title",
-    "body": "A sexy note"
+    "title": "ein test",
+    "body": "hallo bille"
 }
 
 ##### GET single by id
@@ -31,7 +31,7 @@ PUT {{url}}/ty3doqq0vel08pwax6yr
 Content-Type: application/json
 
 {
-    "title": "A sexy title, updated",
+    "title": "A sexy title, again",
     "body": "A sexy note, updated"
 }
 

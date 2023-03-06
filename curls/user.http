@@ -22,11 +22,10 @@ Content-Type:  {{content}}
 #   "role" : "user"
 # }
 
-
 {
-  "username" : "JohnUser",
-  "password" : "Johns call",
-  "role" : "User"
+  "username" : "Foobar",
+  "password" : "baz call",
+  "role" : "Admin"
 }
 
 

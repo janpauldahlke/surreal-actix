@@ -20,3 +20,10 @@ pub async fn hello_name_age_location(path: Path<(String, u32, String)>) -> HttpR
         name, age, location
     ))
 }
+
+#[get("/render")]
+pub async fn guarded_html() -> HttpResponse {
+    HttpResponse::Ok()
+        .content_type("text/html; charset=utf-8")
+        .body(include_str!("../client/index.html"))
+}
