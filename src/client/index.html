@@ -6,11 +6,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
+
+
 <body>
   
   <h1>testsite</h1>
 
   <p>lorem ipsum dolor..</p>
-
 </body>
+
+<script>
+  //selecrt dom element h1
+  const h1 = document.querySelector('h1');
+  //create function that css randoms color as rbg
+  const randomColor = () => {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    const bgColor = "rgb(" + r + "," + g + "," + b + ")";
+    return bgColor;
+  }
+  //create function that changes color of h1 all 100ms
+  const changeColor = () => {
+    setInterval(() => {
+      h1.style.color = randomColor();
+    },100)
+  }
+
+  changeColor();
+  
+
+</script>
 </html>
