@@ -1,0 +1,10 @@
+@baseUrl = http://127.0.0.1:8080/
+@route = hello
+@url = {{baseUrl}}{{route}}
+@content = application/json
+
+GET {{url}}/deinName HTTP/1.1
+Content-Type: {{content}}
+
+GET {{url}}/deinName/42/Hamburg HTTP/1.1
+Content-Type: {{content}}
