@@ -17,6 +17,7 @@ use api::user_api::{
 use repository::surrealdb_repo::SurrealDBRepo;
 
 // region -- constants
+// TODO: into .env file
 const _SECRET: &str = "HIDDEN";
 const _HEADER: &str = "X-SECRET";
 // -- end region
@@ -48,12 +49,12 @@ async fn main() -> std::io::Result<()> {
             .service(hello_name)
             .service(hello_name_age_location)
             .service(guarded_html)
-            .service(
-                web::scope("/guarded")
-                    .route("/{name}", web::get().to(guarded_name))
-                    .guard(guard::Get())
-                    .guard(guard::Header(_HEADER, _SECRET)),
-            )
+        // .service(
+        //     web::scope("/guarded")
+        //         .route("/{param}", web::get().to(guarded_name))
+        //         .guard(guard::Get())
+        //         .guard(guard::Header(_HEADER, _SECRET)),
+        // )
     })
     .bind(("127.0.0.1", 8080))?
     .run()

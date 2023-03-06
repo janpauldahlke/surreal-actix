@@ -1,6 +1,7 @@
 use actix_web::{
     delete, get,
-    guard::{Guard, Header},
+    guard::Guard,
+    http::header::{HeaderName, HeaderValue, InvalidHeaderName, InvalidHeaderValue, ToStrError},
     post, put,
     web::{Data, Json, Path},
     HttpResponse,
@@ -11,7 +12,9 @@ const _HEADER: &str = "X-SECRET";
 
 // get route with name parameter
 
-pub async fn guarded_name(path: Path<String>) -> HttpResponse {
+pub async fn guarded_name(header: HeaderValue, path: Path<String>) -> HttpResponse {
     let name = path.into_inner();
-    HttpResponse::Ok().body(format!("Hello {}!", name))
+    let header = header.to_str().unwrap();
+
+    HttpResponse::Ok().body(format!("From guarded , -- arguments! {} {}", name, header))
 }

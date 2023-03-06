@@ -1,6 +1,8 @@
 use actix_web::{
-    delete, get, post, put,
-    web::{Data, Json, Path},
+    delete, get,
+    http::header::{self, Header, HeaderMap},
+    post, put,
+    web::{head, Data, Json, Path},
     HttpResponse,
 };
 
@@ -15,6 +17,7 @@ pub async fn hello_name(path: Path<String>) -> HttpResponse {
 #[get("/hello/{name}/{age}/{location}")]
 pub async fn hello_name_age_location(path: Path<(String, u32, String)>) -> HttpResponse {
     let (name, age, location) = path.into_inner();
+
     HttpResponse::Ok().body(format!(
         "Hello {}! You are {} years old and you live in {}",
         name, age, location
