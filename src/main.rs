@@ -1,3 +1,4 @@
+use actix_web::{guard, web};
 use actix_web::{web::Data, App, HttpServer};
 
 mod api;
@@ -7,12 +8,18 @@ mod prelude;
 mod repository;
 mod utils;
 
+use api::guarded_api::guarded_name;
 use api::hello_api::{hello_name, hello_name_age_location};
 use api::todo_api::{create_todo, delete_todo, get_todo, get_todos, update_todo};
 use api::user_api::{
     create_user, delete_user, get_user, get_users, get_users_by_role, update_user,
 };
 use repository::surrealdb_repo::SurrealDBRepo;
+
+// region -- constants
+const _SECRET: &str = "HIDDEN";
+const _HEADER: &str = "X-SECRET";
+// -- end region
 
 // region -- main
 
@@ -40,6 +47,12 @@ async fn main() -> std::io::Result<()> {
             .service(delete_user)
             .service(hello_name)
             .service(hello_name_age_location)
+            .service(
+                web::scope("/guarded")
+                    .route("/{name}", web::get().to(guarded_name))
+                    .guard(guard::Get())
+                    .guard(guard::Header(_HEADER, _SECRET)),
+            )
     })
     .bind(("127.0.0.1", 8080))?
     .run()
