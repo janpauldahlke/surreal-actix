@@ -3,5 +3,11 @@
 @url = {{baseUrl}}{{route}}
 @content = application/json
 
+### params only no path
 GET {{url}}?name=SevenOfNine&age=42&location=voyager HTTP/1.
+Content-Type: {{content}}
+
+
+### params only and path
+GET {{url}}/one?name=SevenOfNine&age=42&location=voyager HTTP/1.
 Content-Type: {{content}}

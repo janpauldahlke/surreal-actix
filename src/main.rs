@@ -10,7 +10,7 @@ mod utils;
 
 use api::guarded_api::guarded_name;
 use api::hello_api::{guarded_html, hello_name, hello_name_age_location};
-use api::params_api::get_params;
+use api::params_api::{get_params, get_params_and_path};
 use api::todo_api::{create_todo, delete_todo, get_todo, get_todos, update_todo};
 use api::user_api::{
     create_user, delete_user, get_user, get_users, get_users_by_role, update_user,
@@ -50,6 +50,7 @@ async fn main() -> std::io::Result<()> {
             .service(hello_name)
             .service(hello_name_age_location)
             .service(guarded_html)
+            .service(get_params_and_path)
             .service(get_params)
         // .service(
         //     web::scope("/guarded")
