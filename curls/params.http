@@ -1,0 +1,7 @@
+@baseUrl = http://127.0.0.1:8080/
+@route = params
+@url = {{baseUrl}}{{route}}
+@content = application/json
+
+GET {{url}}?name=SevenOfNine&age=42&location=voyager HTTP/1.
+Content-Type: {{content}}
