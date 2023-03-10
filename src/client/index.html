@@ -19,9 +19,10 @@
   
   const h1 = document.querySelector('h1');
   const randomColor = () => {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
+    const rnd_color = () => Math.floor(Math.random() * 256);
+    const r = rnd_color();
+    const g = rnd_color();
+    const b = rnd_color();
     const bgColor = "rgb(" + r + "," + g + "," + b + ")";
     return bgColor;
   }
