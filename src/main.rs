@@ -106,12 +106,14 @@ fn yew_html() -> String {
             <p>{"This is a test of the yew framework"}</p>
         </div>
     };
-    let html_string = format!("{:?}", html);
+    let html_string = format!("{:?}", html.into_html_result());
+    // seems like there is no eays way to render from yew macros to html?
+    println!("html_string: {}", html_string.clone());
     html_string
 }
 
 fn return_yew_html() -> HttpResponse {
-    let markup = yew_html().to_string();
+    let markup = yew_html();
     HttpResponse::Ok().body(markup)
 }
 
@@ -126,8 +128,8 @@ fn plain_string_html() -> HttpResponse {
 
 #[get("/yew")]
 async fn yew_html_response() -> HttpResponse {
-    //return_yew_html()
-    plain_string_html()
+    return_yew_html()
+    //plain_string_html()
 }
 
 // endregion
