@@ -12,4 +12,4 @@ GET {{url}}/Foobar/42/Hamburg HTTP/1.1
 GET {{url}}?name=Hans HTTP/1.1
 
 ###
-GET http://127.0.0.1:8080/foo?name=actix&location=world&age=43 HTTP/1.1
+GET http://127.0.0.1:8080/foo?name=Foobar&location=world&age=43 HTTP/1.1
