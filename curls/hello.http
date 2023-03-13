@@ -7,3 +7,6 @@ GET {{url}}/Far HTTP/1.1
 Content-Type: {{content}}
 ###
 GET {{url}}/Foobar/42/Hamburg HTTP/1.1
+
+###
+GET {{url}}?name=Hans HTTP/1.1

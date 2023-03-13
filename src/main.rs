@@ -127,7 +127,7 @@ async fn main() -> std::io::Result<()> {
             .route("/hello/{name}", web::get().to(greet_handler))
             .route("/foo", web::get().to(foo_querry_params))
     })
-    .bind("127.0.0.1:8080")?
+    .bind("127.0.0.1:8081")?
     .run()
     .await
 }
@@ -137,22 +137,46 @@ mod tests {
     use super::*;
     use actix_web::{
         http::{self, header::ContentType},
-        test,
+        test::{self, call_service, TestRequest},
+        App,
     };
 
+    // #[actix_web::test]
+    // async fn test_greet() {
+    //     let app = test::init_service(
+    //         App::new()
+    //             .service(web::resource("127.0.0.1:8081/hello").route(web::get().to(greet_handler))),
+    //     )
+    //     .await;
+
+    //     let req = test::TestRequest::get().uri("/hello/actix").to_request();
+
+    //     // let req = test::TestRequest::post()
+    //     //     .uri("/")
+    //     //     .set_json(&MyObj {
+    //     //         name: "my-name".to_owned(),
+    //     //         number: 43,
+    //     //     })
+    //     //     .to_request();
+    //     // let resp = app.call(req).await.unwrap();
+
+    //     // let result = test::call_and_read_body(&app, req).await;
+    //     // assert_eq!(result, ("Hello actix"));
+
+    //     let result = test::call_and_read_body(&app, req).await;
+
+    //     println!("{:?}", result);
+    // }
+
     #[actix_web::test]
-    async fn test_greet() {
-        let app = test::init_service(
-            App::new().service(web::resource("/hello/{name}").route(web::get().to(greet))),
-        )
-        .await;
+    async fn test_foo_querry_params() {
+        let app = test::init_service(App::new().service(foo_querry_params)).await;
+        let request = TestRequest::with_uri("/foo?name=actix&location=world&age=43").to_request();
 
-        let req = test::call_service(
-            &app,
-            test::TestRequest::get().uri("/hello/actix").to_request(),
-        );
+        let response = call_service(&app, request).await;
+        assert_eq!(response.status(), http::StatusCode::OK);
 
-        let result = test::call_and_read_body(&app, req).await;
-        assert_eq!(result, ("Hello actix"));
+        let body = test::read_body(response).await;
+        assert_eq!(body, "route params are, nameactix world 43");
     }
 }
