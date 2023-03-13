@@ -1,3 +1,5 @@
+use actix_web::http::header;
+use actix_web::HttpRequest;
 use actix_web::{guard, web, web::Data, App, HttpResponse, HttpServer, Responder};
 
 mod api;
@@ -25,7 +27,7 @@ const _HEADER: &str = "X-SECRET";
 
 // region -- main
 
-//#[actix_web::main]
+// #[actix_web::main]
 // async fn main() -> std::io::Result<()> {
 //     let surreal = SurrealDBRepo::init_with_name_and_ns_and_db("local.db", "test_ns", "todo_db")
 //         .await
@@ -64,6 +66,24 @@ const _HEADER: &str = "X-SECRET";
 //     .await
 // }
 
+// mod tests {
+//     use super::*;
+//     use actix_web::{
+//         http::{self, header::ContentType},
+//         test,
+//     };
+
+//     #[actix_web::test]
+//     async fn test_hello() {
+//         let test = hello_name;
+//         let req = test::TestRequest::default()
+//             .insert_header(ContentType::plaintext())
+//             .to_http_request();
+
+//         //let resp = test(req).await.unwrap();
+//     }
+// }
+
 // -- end region
 
 // a mvp of a web server
@@ -89,15 +109,50 @@ async fn greet(name: web::Path<String>) -> HttpResponse {
     HttpResponse::Ok().body(format!("Hello, {}!", name))
 }
 
+async fn greet_handler(req: HttpRequest, path: web::Path<String>) -> HttpResponse {
+    let name = path.into_inner();
+    if name.len() > 5 {
+        return HttpResponse::Ok().body(format!("Hello {:?}", name));
+    } else {
+        return HttpResponse::BadRequest().into();
+    }
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .route("/", web::get().to(index))
-            .route("/hello/{name}", web::get().to(greet))
+            //.route("/hello/{name}", web::get().to(greet))
+            .route("/hello/{name}", web::get().to(greet_handler))
             .route("/foo", web::get().to(foo_querry_params))
     })
     .bind("127.0.0.1:8080")?
     .run()
     .await
+}
+
+mod tests {
+
+    use super::*;
+    use actix_web::{
+        http::{self, header::ContentType},
+        test,
+    };
+
+    #[actix_web::test]
+    async fn test_greet() {
+        let app = test::init_service(
+            App::new().service(web::resource("/hello/{name}").route(web::get().to(greet))),
+        )
+        .await;
+
+        let req = test::call_service(
+            &app,
+            test::TestRequest::get().uri("/hello/actix").to_request(),
+        );
+
+        let result = test::call_and_read_body(&app, req).await;
+        assert_eq!(result, ("Hello actix"));
+    }
 }

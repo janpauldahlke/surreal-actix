@@ -7,6 +7,7 @@ use actix_web::{
 };
 
 // get route with name parameter
+
 #[get("/hello/{name}")]
 pub async fn hello_name(path: Path<String>) -> HttpResponse {
     let name = path.into_inner();
