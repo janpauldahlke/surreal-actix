@@ -66,8 +66,8 @@ const _HEADER: &str = "X-SECRET";
 //         // )
 //     })
 //     .bind(("127.0.0.1", 8080))?
-//     .run()
 //     .await
+//     .run()
 // }
 
 // mod tests {
