@@ -20,8 +20,6 @@ use api::user_api::{
 };
 use repository::surrealdb_repo::SurrealDBRepo;
 use serde::Deserialize;
-use yew::html::IntoHtmlResult;
-use yew::prelude::*;
 
 // region -- constants
 // TODO: into .env file
@@ -99,38 +97,38 @@ pub struct FooParams {
 }
 
 // --Beginn Region: yew html!
-fn yew_html() -> String {
-    let html = html! {
-        <div>
-            <h1>{"Hello, world!"}</h1>
-            <p>{"This is a test of the yew framework"}</p>
-        </div>
-    };
-    let html_string = format!("{:?}", html.into_html_result());
-    // seems like there is no eays way to render from yew macros to html?
-    println!("html_string: {}", html_string.clone());
-    html_string
-}
+// fn yew_html() -> String {
+//     let html = html! {
+//         <div>
+//             <h1>{"Hello, world!"}</h1>
+//             <p>{"This is a test of the yew framework"}</p>
+//         </div>
+//     };
+//     let html_string = format!("{:?}", html.into_html_result());
+//     // seems like there is no eays way to render from yew macros to html?
+//     println!("html_string: {}", html_string.clone());
+//     html_string
+// }
 
-fn return_yew_html() -> HttpResponse {
-    let markup = yew_html();
-    HttpResponse::Ok().body(markup)
-}
+// fn return_yew_html() -> HttpResponse {
+//     let markup = yew_html();
+//     HttpResponse::Ok().body(markup)
+// }
 
-fn plain_string_html() -> HttpResponse {
-    let html = "<div>
-        <h1>Hello, world!</h1>
-        <p>This is a test of the the NO framework</p>
-    </div>"
-        .to_string();
-    HttpResponse::Ok().body(html)
-}
+// fn plain_string_html() -> HttpResponse {
+//     let html = "<div>
+//         <h1>Hello, world!</h1>
+//         <p>This is a test of the the NO framework</p>
+//     </div>"
+//         .to_string();
+//     HttpResponse::Ok().body(html)
+// }
 
-#[get("/yew")]
-async fn yew_html_response() -> HttpResponse {
-    return_yew_html()
-    //plain_string_html()
-}
+// #[get("/yew")]
+// async fn yew_html_response() -> HttpResponse {
+//     return_yew_html()
+//     //plain_string_html()
+// }
 
 // endregion
 
@@ -160,13 +158,12 @@ async fn greet_handler(req: HttpRequest, path: web::Path<String>) -> HttpRespons
 }
 
 #[actix_web::main]
-async fn main() -> std::io::Result<()> {
-    let server =
-        HttpServer::new(|| App::new().service(yew_html_response)).bind("127.0.0.1:8080")?;
+// async fn main() -> std::io::Result<()> {
+//     let server =
+//         HttpServer::new(|| App::new().service(yew_html_response)).bind("127.0.0.1:8080")?;
 
-    server.run().await
-}
-
+//     server.run().await
+// }
 #[cfg(test)]
 mod tests {
 
